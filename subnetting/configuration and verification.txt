@@ -1,0 +1,266 @@
+step 1 :
+ we will use VLSM method for this subnetting (varaible length Subnetting mask which is used by modern network eng to design network)
+how to do VLSM :
+rules 
+1) assign the largest subnet to betwork having largest host num
+2) second do it for second largest and then follow this process
+3) repeat untill all subnet has been assigned 
+
+note : VLSM allow us to use network address more effiecntly unlike FLSM (fixed length Subnet mask)
+
+
+step 2 : open cisco CCNA 
+
+1) we will use 2 router and called it R1 and R2 
+2) we also have switch one and switch 2 of model 2960-24TT connceted to R1 
+3) we have siwtch  and 4 conncted to R2 router 
+4) router being same devices willl use crossover cable to communicate 
+so we need 4 subnet beacuse router have 4 switch connnected to it but there a problem the area or router to router conncetion also need subnet so technically 5 subnet .
+
+ ADDRESS GIVEN TO US TO SUBNET : 192.168.44.0/24
+Number of num host assigned to each subnet for end devices
+for switch 0: 45 : devices : pc0 and pc1 
+for switch 2 : 65 : devices : pc8 and pc3
+for switch 3 : 5 : devices : pc4 and pc5
+for switch 4 : 20 ; devices : pc7
+for r1 and r2 : 2 host : devices r1 and r2
+subnet for conncetyion between R1 ANd R2 we need 2 host addr : 2 host req
+
+
+calcualtion : i did calculation in note copy so in short 
+
+
+IP : 192.168.44.0/24
+-----------------------
+switch2 : 65 host 
+_subnet 1_____________________
+network address : 192.168.44.0
+broadcast address : 192.168.44.127
+usable hosts : 192.168.44.1 to 192.168.44.126
+prefix :/25
+
+
+-----------------------
+switch0 : 45 host 
+subnet 2______________________
+network address : 192.168.44.128
+broadcast address : 192.168.44.191
+usable hosts : 192.168.44.129 to 192.168.44.190
+prefix : /26
+
+
+-----------------------
+switch4 : 20 host 
+subnet 3______________________
+network address : 192.168.44.192
+broadcast address : 192.168.44.223
+usable hosts : 192.168.44.193 to 192.168.44.222
+prefix : /27
+
+-----------------------
+switch3 : 5 host 
+subnet 4______________________
+network address : 192.168.44.231
+broadcast address : 192.168.44.191
+usable hosts : 192.168.44.225 to 192.168.44.230 
+prefix : /29
+
+---------------
+subnet 5
+
+r1 and r2 router 
+__________________
+network address : 192.168.44.232
+broadcast address : 192.168.44.235
+usable hosts : 192.168.44.233 to 192.168.44.234 
+prefix : /29
+
+
+
+
+R1 COMMANDS : 
+R1>enable
+R1#show startup-config
+Using 1090 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname R1
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO2911/K9 sn FTX1524Q9R5-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ ip address 192.168.44.129 255.255.255.192
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ ip address 192.168.44.233 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ ip address 192.168.44.126 255.255.255.128
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/2/0
+ switchport mode access
+!
+interface FastEthernet0/2/1
+ switchport mode access
+!
+interface FastEthernet0/2/2
+ switchport mode access
+!
+interface FastEthernet0/2/3
+ switchport mode access
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+ip route 192.168.44.192 255.255.255.224 192.168.44.234 
+ip route 192.168.44.224 255.255.255.248 192.168.44.234 
+!
+ip flow-export version 9
+!
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line 0/3/0 0/3/7
+!
+line vty 0 4
+ login
+!
+!
+!
+
+R2 COMMANDS : 
+
+interface GigabitEthernet0/0
+ ip address 192.168.44.234 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ ip address 192.168.44.222 255.255.255.224
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ ip address 192.168.44.230 255.255.255.248
+ duplex auto
+ speed auto
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+ip route 192.168.44.128 255.255.255.192 192.168.44.233 
+ip route 192.168.44.0 255.255.255.128 192.168.44.233 
+!
+ip flow-export version 9
+!
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+
+
+
+
+
+for subnet 1 pc
+
+default gateway : 192.168.44.126
+
+for subnet 2 pc
+default gateway :192.168.44.190
+
+for subnet 3 pc 
+default gateway :192.16.44.222
+
+for subnet 4 pc 
+default gateway : 192.168.44.230
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
